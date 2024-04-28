@@ -16,6 +16,10 @@
     "src",
     "dist"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
   "scripts": {
     "build": "microbundle --external react,react-dom --format esm",
     "prepublishOnly": "npm run build"
