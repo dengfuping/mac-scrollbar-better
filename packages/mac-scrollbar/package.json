@@ -5,7 +5,7 @@
   "author": "MinJieLiu <liumingyi_1@163.com>",
   "type": "module",
   "source": "src/index.ts",
-  "module": "./dist/mac-scrollbar.module.js",
+  "module": "./dist/mac-scrollbar-better.module.js",
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
