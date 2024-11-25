@@ -22,7 +22,7 @@
     ]
   },
   "author": "MinJieLiu",
-  "repository": "https://github.com/MinJieLiu/mac-scrollbar.git",
+  "repository": "https://github.com/dengfuping/mac-scrollbar-better",
   "license": "MIT",
   "devDependencies": {
     "@micro-web/standard": "^1.2.2",
