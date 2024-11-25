@@ -43,15 +43,36 @@ export function useScrollbar(
 
   const [boxSize, updateBoxSize] = useState<BoxSize>(initialSize);
   const [action, updateAction] = useState<ActionPosition>(initialAction);
-  const [barVisible, updateBarVisible] = useState<boolean>(false);
+  const [barXVisible, updateBarXVisible] = useState<boolean>(false);
+  const [barYVisible, updateBarYVisible] = useState<boolean>(false);
+  const [scrollLeft, updateScrollLeft] = useState(0);
+  const [scrollTop, updateScrollTop] = useState(0)
 
-  const hideScrollbarDelay = useDebounceCallback(
-    () => !suppressAutoHide && updateBarVisible(false),
-    { wait: 1000 },
+  const hideScrollbarXDelay = useDebounceCallback(
+    () => {
+      if (!suppressAutoHide) {
+        updateBarXVisible(false);
+      }
+    },
+    { wait: 500 },
+  );
+
+  const hideScrollbarYDelay = useDebounceCallback(
+    () => {
+      if (!suppressAutoHide) {
+        updateBarYVisible(false);
+      }
+    },
+    { wait: 500 },
   );
 
   const hideScrollbar = useDebounceCallback(
-    () => !suppressAutoHide && updateBarVisible(false),
+    () => {
+      if (!suppressAutoHide) {
+        updateBarXVisible(false);
+        updateBarYVisible(false);
+      }
+    },
     { wait: 0 },
   );
 
@@ -62,8 +83,19 @@ export function useScrollbar(
 
   const moveTo = useDebounceCallback(
     (position: ScrollPosition) => {
-      updateBarVisible(true);
-      hideScrollbarDelay();
+      const isHorizontalScroll = position.scrollLeft !== scrollLeft;
+      const isVerticalScroll = position.scrollTop !== scrollTop;
+      if (isHorizontalScroll) {
+        updateBarXVisible(true);
+        hideScrollbarXDelay();
+      }
+      if (isVerticalScroll) {
+        updateBarYVisible(true);
+        hideScrollbarYDelay()
+      }
+      updateScrollLeft(position.scrollLeft);
+      updateScrollTop(position.scrollTop);
+
       updateScrollElementStyle(
         boxSize,
         position,
@@ -114,7 +146,7 @@ export function useScrollbar(
       {!suppressScrollX && showBarX && (
         <ThumbBar
           scrollRef={scrollRef}
-          visible={barVisible}
+          visible={barXVisible}
           trackStyle={trackStyle}
           thumbStyle={thumbStyle}
           minThumbSize={minThumbSize}
@@ -131,7 +163,7 @@ export function useScrollbar(
       {!suppressScrollY && showBarY && (
         <ThumbBar
           scrollRef={scrollRef}
-          visible={barVisible}
+          visible={barYVisible}
           trackStyle={trackStyle}
           thumbStyle={thumbStyle}
           minThumbSize={minThumbSize}
